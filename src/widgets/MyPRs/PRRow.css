@@ -1,0 +1,143 @@
+.pr-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+
+.pr-row:last-child {
+  border-bottom: none;
+}
+
+.pr-row:hover {
+  background: var(--hover-bg);
+}
+
+.pr-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.pr-title-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pr-title {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pr-title:hover {
+  text-decoration: underline;
+  color: var(--accent);
+}
+
+.pr-badges {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.badge {
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.badge-draft {
+  background: var(--badge-draft-bg);
+  color: var(--badge-draft-text);
+}
+
+.badge-conflict {
+  background: var(--badge-conflict-bg);
+  color: var(--badge-conflict-text);
+}
+
+.badge-stuck {
+  background: var(--badge-stuck-bg);
+  color: var(--badge-stuck-text);
+}
+
+.pr-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.pr-repo {
+  font-weight: 500;
+}
+
+.pr-arrow {
+  opacity: 0.5;
+}
+
+.pr-branch {
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.pr-comments {
+  margin-left: 8px;
+  color: var(--warning);
+}
+
+.pr-reviewers {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.reviewer-vote {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: default;
+}
+
+.vote-approved {
+  background: #22c55e33;
+  color: #22c55e;
+}
+
+.vote-suggestions {
+  background: #3b82f633;
+  color: #60a5fa;
+}
+
+.vote-waiting {
+  background: #f59e0b33;
+  color: #f59e0b;
+}
+
+.vote-rejected {
+  background: #ef444433;
+  color: #ef4444;
+}
+
+.vote-none {
+  background: var(--hover-bg);
+  color: var(--text-secondary);
+}
