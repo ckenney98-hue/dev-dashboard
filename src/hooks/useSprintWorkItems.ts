@@ -57,7 +57,11 @@ export function useSprintWorkItems(refreshKey: number) {
         }
 
         const ids = await fetchIterationWorkItems(iteration.id);
-        const items = await fetchWorkItemsBatch(ids);
+        const unordered = await fetchWorkItemsBatch(ids);
+        const orderMap = new Map(ids.map((id, i) => [id, i]));
+        const items = unordered
+          .filter((i) => i.fields["System.WorkItemType"] !== "Task")
+          .sort((a, b) => (orderMap.get(a.id) ?? 0) - (orderMap.get(b.id) ?? 0));
 
         const progress: SprintProgress = {
           totalItems: items.length,

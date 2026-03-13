@@ -6,17 +6,21 @@ interface WidgetCardProps {
   loading: boolean;
   error: string | null;
   onRetry: () => void;
+  headerActions?: ReactNode;
   children: ReactNode;
 }
 
-export function WidgetCard({ title, loading, error, onRetry, children }: WidgetCardProps) {
+export function WidgetCard({ title, loading, error, onRetry, headerActions, children }: WidgetCardProps) {
   return (
     <div className="widget-card">
       <div className="widget-header">
         <h2 className="widget-title">{title}</h2>
-        <button className="widget-refresh" onClick={onRetry} title="Refresh">
-          ↻
-        </button>
+        <div className="widget-header-actions">
+          {headerActions}
+          <button className="widget-refresh" onClick={onRetry} title="Refresh">
+            ↻
+          </button>
+        </div>
       </div>
       <div className="widget-body">
         {loading && <div className="widget-loading">Loading…</div>}

@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { useAutoRefresh } from "./hooks/useAutoRefresh";
 import { MyPRsWidget } from "./widgets/MyPRs/MyPRsWidget";
+import { TeamPRsWidget } from "./widgets/TeamPRs/TeamPRsWidget";
 import { SprintItemsWidget } from "./widgets/SprintItems/SprintItemsWidget";
+import { WorktreesWidget } from "./widgets/Worktrees/WorktreesWidget";
 import "./App.css";
 
 function formatTime(date: Date): string {
@@ -31,8 +33,12 @@ function App() {
         </div>
       </header>
       <div className="widget-grid">
-        <MyPRsWidget refreshKey={refreshKey} />
         <SprintItemsWidget refreshKey={refreshKey} />
+        <div className="pr-column">
+          <MyPRsWidget refreshKey={refreshKey} />
+          <TeamPRsWidget refreshKey={refreshKey} />
+          <WorktreesWidget refreshKey={refreshKey} />
+        </div>
       </div>
     </div>
   );

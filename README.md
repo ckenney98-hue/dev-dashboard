@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# Dev Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal developer dashboard for Azure DevOps teams. Displays sprint work items, pull requests, team PR reviews, and active worktrees in a single view.
 
-Currently, two official plugins are available:
+Built with React, TypeScript, and Vite.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Prerequisites
 
-## React Compiler
+- [Node.js](https://nodejs.org/) (v18+)
+- [pnpm](https://pnpm.io/)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Setup
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/ckenney98-hue/dev-dashboard.git
+cd dev-dashboard
+pnpm install
+cp .env.example .env
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Edit `.env` with your values (see below), then start the dev server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm dev
 ```
+
+## Creating an Azure DevOps PAT
+
+1. Go to `https://dev.azure.com/{your-org}/_usersSettings/tokens`
+2. Click **New Token**
+3. Name it (e.g., "dev-dashboard")
+4. Set an expiration date
+5. Under **Scopes**, select:
+   - **Code** — Read
+   - **Work Items** — Read
+   - **Build** — Read
+6. Click **Create** and copy the token
+7. Paste it into `AZURE_DEVOPS_PAT` in your `.env` file
+
+## Environment Variables
+
+| Variable | Description |
+|---|---|
+| `VITE_ADO_ORG` | Your Azure DevOps organization name |
+| `VITE_ADO_PROJECT` | ADO project name |
+| `VITE_ADO_TEAM` | Your team name within the project |
+| `VITE_ADO_REVIEWER_GROUP_ID` | Group ID used to filter team PR reviews |
+| `VITE_STUCK_HOURS_THRESHOLD` | Hours before a PR is considered "stuck" (default: 5) |
+| `GIT_REPO_ROOT` | Absolute path to your local git repo (used for worktree detection) |
+| `AZURE_DEVOPS_PAT` | Your personal access token (never committed) |
+
+## For Other Devs
+
+After cloning, you just need to:
+
+1. `cp .env.example .env`
+2. Fill in your values: `AZURE_DEVOPS_PAT`, `GIT_REPO_ROOT`, `VITE_ADO_REVIEWER_GROUP_ID`
+3. `pnpm install && pnpm dev`

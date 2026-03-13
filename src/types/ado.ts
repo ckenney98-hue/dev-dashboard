@@ -23,6 +23,10 @@ export interface GitPullRequest {
     url: string;
     webUrl: string;
   };
+  createdBy: {
+    id: string;
+    displayName: string;
+  };
   reviewers: PullRequestReviewer[];
   url: string;
   _links?: {

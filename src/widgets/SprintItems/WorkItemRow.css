@@ -70,6 +70,26 @@
   color: #60a5fa;
 }
 
+.state-developing {
+  background: #a855f733;
+  color: #c084fc;
+}
+
+.state-code-review {
+  background: #f59e0b33;
+  color: #fbbf24;
+}
+
+.state-dev-ready {
+  background: #06b6d433;
+  color: #22d3ee;
+}
+
+.state-test-ready {
+  background: #f4734633;
+  color: #fb923c;
+}
+
 .state-resolved {
   background: #22c55e33;
   color: #22c55e;

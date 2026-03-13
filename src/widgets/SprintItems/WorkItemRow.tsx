@@ -17,6 +17,10 @@ const TYPE_ICONS: Record<string, string> = {
 const STATE_CLASSES: Record<string, string> = {
   New: "state-new",
   Active: "state-active",
+  Developing: "state-developing",
+  "Code Review": "state-code-review",
+  "Dev Ready": "state-dev-ready",
+  "Test Ready": "state-test-ready",
   Resolved: "state-resolved",
   Closed: "state-closed",
   Done: "state-closed",

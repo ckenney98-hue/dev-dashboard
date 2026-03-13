@@ -1,9 +1,19 @@
 const API_VERSION = "7.1";
 
-export async function adoGet<T>(path: string, preview = false): Promise<T> {
-  const separator = path.includes("?") ? "&" : "?";
-  const version = preview ? `${API_VERSION}-preview` : API_VERSION;
-  const url = `/api/ado/${path}${separator}api-version=${version}`;
+interface FetchOptions {
+  preview?: boolean;
+  skipVersion?: boolean;
+  apiVersion?: string;
+}
+
+export async function adoGet<T>(path: string, opts: FetchOptions = {}): Promise<T> {
+  let url = `/api/ado/${path}`;
+  if (!opts.skipVersion) {
+    const separator = path.includes("?") ? "&" : "?";
+    const base = opts.apiVersion || API_VERSION;
+    const version = opts.preview ? `${base}-preview` : base;
+    url += `${separator}api-version=${version}`;
+  }
 
   const res = await fetch(url);
   if (!res.ok) {
@@ -12,10 +22,14 @@ export async function adoGet<T>(path: string, preview = false): Promise<T> {
   return res.json();
 }
 
-export async function adoPost<T>(path: string, body: unknown, preview = false): Promise<T> {
-  const separator = path.includes("?") ? "&" : "?";
-  const version = preview ? `${API_VERSION}-preview` : API_VERSION;
-  const url = `/api/ado/${path}${separator}api-version=${version}`;
+export async function adoPost<T>(path: string, body: unknown, opts: FetchOptions = {}): Promise<T> {
+  let url = `/api/ado/${path}`;
+  if (!opts.skipVersion) {
+    const separator = path.includes("?") ? "&" : "?";
+    const base = opts.apiVersion || API_VERSION;
+    const version = opts.preview ? `${base}-preview` : base;
+    url += `${separator}api-version=${version}`;
+  }
 
   const res = await fetch(url, {
     method: "POST",

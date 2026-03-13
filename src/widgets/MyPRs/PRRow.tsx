@@ -21,8 +21,20 @@ function voteLabel(vote: number): string {
   return "○";
 }
 
+const BUILD_ICONS: Record<string, string> = {
+  succeeded: "✓",
+  failed: "✗",
+  pending: "●",
+};
+
+const BUILD_LABELS: Record<string, string> = {
+  succeeded: "Build passed",
+  failed: "Build failed",
+  pending: "Build running",
+};
+
 export function PRRow({ vm }: PRRowProps) {
-  const { pr, unresolvedComments, isStuck, webUrl } = vm;
+  const { pr, unresolvedComments, isStuck, isStuckCritical, buildStatus, buildUrl, webUrl } = vm;
   const targetBranch = pr.targetRefName.replace("refs/heads/", "");
   const hasConflicts = pr.mergeStatus === "conflicts";
 
@@ -36,7 +48,31 @@ export function PRRow({ vm }: PRRowProps) {
           <div className="pr-badges">
             {pr.isDraft && <span className="badge badge-draft">Draft</span>}
             {hasConflicts && <span className="badge badge-conflict">Conflicts</span>}
-            {isStuck && <span className="badge badge-stuck">Stuck</span>}
+            {isStuck && (
+              <span className={`badge ${isStuckCritical ? "badge-stuck-critical" : "badge-stuck"}`}>
+                Stuck
+              </span>
+            )}
+            {buildStatus !== "none" && (
+              buildUrl ? (
+                <a
+                  href={buildUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`badge badge-build badge-build-${buildStatus}`}
+                  title={BUILD_LABELS[buildStatus]}
+                >
+                  {BUILD_ICONS[buildStatus]} Build
+                </a>
+              ) : (
+                <span
+                  className={`badge badge-build badge-build-${buildStatus}`}
+                  title={BUILD_LABELS[buildStatus]}
+                >
+                  {BUILD_ICONS[buildStatus]} Build
+                </span>
+              )
+            )}
           </div>
         </div>
         <div className="pr-meta">

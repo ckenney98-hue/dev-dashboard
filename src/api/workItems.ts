@@ -19,10 +19,9 @@ export async function fetchCurrentIteration(): Promise<TeamIteration | null> {
 export async function fetchIterationWorkItems(
   iterationId: string
 ): Promise<number[]> {
-  const data = await adoPost<IterationWorkItems>(
-    `${project}/${team}/_apis/work/iterations/${iterationId}/workitems`,
-    {},
-    true
+  const data = await adoGet<IterationWorkItems>(
+    `${project}/${team}/_apis/work/teamsettings/iterations/${iterationId}/workitems`,
+    { preview: true, apiVersion: "6.0" }
   );
   // Collect unique work item IDs (targets only, deduped)
   const ids = new Set<number>();
@@ -47,7 +46,7 @@ export async function fetchWorkItemsBatch(ids: number[]): Promise<WorkItem[]> {
         "System.Tags",
       ],
     },
-    true
+    { preview: true }
   );
   return data.value;
 }
