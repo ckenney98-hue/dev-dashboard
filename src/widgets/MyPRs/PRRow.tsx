@@ -39,13 +39,14 @@ export function PRRow({ vm }: PRRowProps) {
   const hasConflicts = pr.mergeStatus === "conflicts";
 
   return (
-    <div className="pr-row">
+    <div className={`pr-row ${vm.isNew ? "pr-row-new" : ""}`}>
       <div className="pr-main">
         <div className="pr-title-line">
           <a href={webUrl} target="_blank" rel="noopener noreferrer" className="pr-title">
             {pr.title}
           </a>
           <div className="pr-badges">
+            {vm.isNew && <span className="badge badge-new">New</span>}
             {pr.isDraft && <span className="badge badge-draft">Draft</span>}
             {hasConflicts && <span className="badge badge-conflict">Conflicts</span>}
             {isStuck && (

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchWorktrees, type WorktreeInfo } from "../api/worktrees";
 import { fetchMyPullRequests } from "../api/pullRequests";
 import { fetchWorkItemsBatch } from "../api/workItems";
@@ -30,12 +30,13 @@ export function useWorktrees(refreshKey: number) {
   const [data, setData] = useState<WorktreeViewModel[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
 
     async function load() {
-      setLoading(true);
+      if (!hasFetched.current) setLoading(true);
       setError(null);
       try {
         const [worktrees, myPrs] = await Promise.all([
@@ -78,7 +79,10 @@ export function useWorktrees(refreshKey: number) {
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e));
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+          hasFetched.current = true;
+        }
       }
     }
 

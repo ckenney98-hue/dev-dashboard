@@ -4,6 +4,7 @@ import "./WorkItemRow.css";
 
 interface WorkItemRowProps {
   item: WorkItem;
+  currentUserName?: string;
 }
 
 const TYPE_ICONS: Record<string, string> = {
@@ -21,22 +22,24 @@ const STATE_CLASSES: Record<string, string> = {
   "Code Review": "state-code-review",
   "Dev Ready": "state-dev-ready",
   "Test Ready": "state-test-ready",
+  Testing: "state-testing",
   Resolved: "state-resolved",
   Closed: "state-closed",
   Done: "state-closed",
   Removed: "state-removed",
 };
 
-export function WorkItemRow({ item }: WorkItemRowProps) {
+export function WorkItemRow({ item, currentUserName }: WorkItemRowProps) {
   const fields = item.fields;
   const type = fields["System.WorkItemType"];
   const state = fields["System.State"];
   const assignedTo = fields["System.AssignedTo"];
   const points = fields["Microsoft.VSTS.Scheduling.StoryPoints"];
   const webUrl = workItemWebUrl(item);
+  const isMine = currentUserName && assignedTo?.displayName === currentUserName;
 
   return (
-    <div className="wi-row">
+    <div className={`wi-row ${isMine ? "wi-row-mine" : ""}`}>
       <span className="wi-type" title={type}>
         {TYPE_ICONS[type] ?? "📋"}
       </span>

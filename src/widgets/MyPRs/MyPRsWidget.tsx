@@ -13,10 +13,11 @@ export function MyPRsWidget({ refreshKey }: MyPRsWidgetProps) {
   const [showDrafts, setShowDrafts] = useState(true);
 
   const filtered = showDrafts ? data : data.filter((vm) => !vm.pr.isDraft);
+  const newCount = filtered.filter((vm) => vm.isNew).length;
 
   return (
     <WidgetCard
-      title="My Pull Requests"
+      title={<>My Pull Requests{newCount > 0 && <span className="new-count-badge">{newCount} new</span>}</>}
       loading={loading}
       error={error}
       onRetry={() => window.dispatchEvent(new Event("dashboard-refresh"))}

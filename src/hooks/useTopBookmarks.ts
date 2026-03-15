@@ -1,11 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-import { fetchMyPullRequests } from "../api/pullRequests";
-import { enrichPullRequests, type PRViewModel } from "./prUtils";
+import { fetchTopBookmarks, type BookmarkEntry } from "../api/bookmarks";
 
-export type { PRViewModel };
-
-export function useMyPullRequests(refreshKey: number) {
-  const [data, setData] = useState<PRViewModel[]>([]);
+export function useTopBookmarks(refreshKey: number) {
+  const [data, setData] = useState<BookmarkEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const hasFetched = useRef(false);
@@ -17,9 +14,8 @@ export function useMyPullRequests(refreshKey: number) {
       if (!hasFetched.current) setLoading(true);
       setError(null);
       try {
-        const prs = await fetchMyPullRequests();
-        const enriched = await enrichPullRequests(prs);
-        if (!cancelled) setData(enriched);
+        const bookmarks = await fetchTopBookmarks();
+        if (!cancelled) setData(bookmarks);
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e));
       } finally {

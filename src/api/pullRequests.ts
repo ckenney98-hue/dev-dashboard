@@ -9,12 +9,25 @@ import type {
 const project = import.meta.env.VITE_ADO_PROJECT;
 
 let cachedUserId: string | null = null;
+let cachedUserName: string | null = null;
+
+async function fetchConnectionData(): Promise<ConnectionData> {
+  const data = await adoGet<ConnectionData>("_apis/connectionData", { skipVersion: true });
+  cachedUserId = data.authenticatedUser.id;
+  cachedUserName = data.authenticatedUser.providerDisplayName;
+  return data;
+}
 
 export async function fetchCurrentUserId(): Promise<string> {
   if (cachedUserId) return cachedUserId;
-  const data = await adoGet<ConnectionData>("_apis/connectionData", { skipVersion: true });
-  cachedUserId = data.authenticatedUser.id;
-  return cachedUserId;
+  await fetchConnectionData();
+  return cachedUserId!;
+}
+
+export async function fetchCurrentUserName(): Promise<string> {
+  if (cachedUserName) return cachedUserName;
+  await fetchConnectionData();
+  return cachedUserName!;
 }
 
 export async function fetchMyPullRequests(): Promise<GitPullRequest[]> {

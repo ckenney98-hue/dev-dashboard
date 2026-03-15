@@ -9,7 +9,11 @@ interface SprintItemsWidgetProps {
 
 export function SprintItemsWidget({ refreshKey }: SprintItemsWidgetProps) {
   const { data, loading, error } = useSprintWorkItems(refreshKey);
-  const { iteration, items, progress } = data;
+  const { iteration, items: allItems, progress, currentUserName } = data;
+  const items = allItems.filter((i) => {
+    const state = i.fields["System.State"];
+    return state !== "Closed" && state !== "New";
+  });
 
   const pctItems =
     progress.totalItems > 0
@@ -56,7 +60,7 @@ export function SprintItemsWidget({ refreshKey }: SprintItemsWidgetProps) {
             </div>
           </div>
           {items.map((item) => (
-            <WorkItemRow key={item.id} item={item} />
+            <WorkItemRow key={item.id} item={item} currentUserName={currentUserName} />
           ))}
         </>
       )}

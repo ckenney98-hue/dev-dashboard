@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { fetchTeamReviewPullRequests } from "../api/pullRequests";
 import { enrichPullRequests, type PRViewModel } from "./prUtils";
 
@@ -6,12 +6,13 @@ export function useTeamPullRequests(refreshKey: number) {
   const [data, setData] = useState<PRViewModel[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
 
     async function load() {
-      setLoading(true);
+      if (!hasFetched.current) setLoading(true);
       setError(null);
       try {
         const prs = await fetchTeamReviewPullRequests();
@@ -20,7 +21,10 @@ export function useTeamPullRequests(refreshKey: number) {
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e));
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+          hasFetched.current = true;
+        }
       }
     }
 

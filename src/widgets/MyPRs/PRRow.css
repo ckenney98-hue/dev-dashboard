@@ -72,6 +72,15 @@
   color: var(--badge-stuck-text);
 }
 
+.badge-new {
+  background: #22c55e33;
+  color: #22c55e;
+}
+
+.pr-row-new {
+  border-left: 3px solid #22c55e;
+}
+
 .badge-stuck-critical {
   background: #ef444433;
   color: #ef4444;

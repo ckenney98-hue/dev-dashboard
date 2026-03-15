@@ -79,6 +79,7 @@ export interface WorkItem {
     };
     "Microsoft.VSTS.Scheduling.StoryPoints"?: number;
     "System.Tags"?: string;
+    "Microsoft.VSTS.Common.ClosedDate"?: string;
   };
   url: string;
   _links?: {

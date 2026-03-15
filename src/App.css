@@ -1,5 +1,5 @@
 .dashboard {
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 0 auto;
   padding: 24px;
 }
@@ -49,7 +49,7 @@
 
 .widget-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 280px;
   gap: 20px;
   align-items: start;
 }

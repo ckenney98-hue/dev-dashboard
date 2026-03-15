@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   fetchCurrentIteration,
   fetchIterationWorkItems,
   fetchWorkItemsBatch,
 } from "../api/workItems";
+import { fetchCurrentUserName } from "../api/pullRequests";
 import type { WorkItem, TeamIteration } from "../types/ado";
 
 export interface SprintProgress {
@@ -17,6 +18,7 @@ export interface SprintData {
   iteration: TeamIteration | null;
   items: WorkItem[];
   progress: SprintProgress;
+  currentUserName: string;
 }
 
 const DONE_STATES = ["Closed", "Done", "Resolved", "Removed"];
@@ -34,15 +36,17 @@ export function useSprintWorkItems(refreshKey: number) {
     iteration: null,
     items: [],
     progress: { totalItems: 0, doneItems: 0, totalPoints: 0, donePoints: 0 },
+    currentUserName: "",
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
 
     async function load() {
-      setLoading(true);
+      if (!hasFetched.current) setLoading(true);
       setError(null);
       try {
         const iteration = await fetchCurrentIteration();
@@ -52,6 +56,7 @@ export function useSprintWorkItems(refreshKey: number) {
               iteration: null,
               items: [],
               progress: { totalItems: 0, doneItems: 0, totalPoints: 0, donePoints: 0 },
+              currentUserName: "",
             });
           return;
         }
@@ -82,11 +87,15 @@ export function useSprintWorkItems(refreshKey: number) {
             ),
         };
 
-        if (!cancelled) setData({ iteration, items, progress });
+        const currentUserName = await fetchCurrentUserName();
+        if (!cancelled) setData({ iteration, items, progress, currentUserName });
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : String(e));
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+          hasFetched.current = true;
+        }
       }
     }
 

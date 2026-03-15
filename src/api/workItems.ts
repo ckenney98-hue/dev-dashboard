@@ -44,6 +44,7 @@ export async function fetchWorkItemsBatch(ids: number[]): Promise<WorkItem[]> {
         "System.AssignedTo",
         "Microsoft.VSTS.Scheduling.StoryPoints",
         "System.Tags",
+        "Microsoft.VSTS.Common.ClosedDate",
       ],
     },
     { preview: true }

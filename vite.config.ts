@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { localGitApi } from "./plugins/localGitApi";
+import { edgeBookmarksApi } from "./plugins/edgeBookmarksApi";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -15,7 +16,7 @@ export default defineConfig(({ mode }) => {
   }
 
   return {
-    plugins: [react(), localGitApi(repoRoot)],
+    plugins: [react(), localGitApi(repoRoot), edgeBookmarksApi()],
     server: {
       port: 3333,
       proxy: {

@@ -1,4 +1,16 @@
-.wi-row {
+.completed-count {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: #22c55e33;
+  color: #22c55e;
+  margin-left: 8px;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.ci-row {
   display: flex;
   align-items: center;
   padding: 8px 16px;
@@ -6,48 +18,64 @@
   border-bottom: 1px solid var(--border);
 }
 
-.wi-row:last-child {
+.ci-row:last-child {
   border-bottom: none;
 }
 
-.wi-row:hover {
+.ci-row:hover {
   background: var(--hover-bg);
 }
 
-.wi-row-mine {
-  border-left: 3px solid var(--accent);
-  background: rgba(88, 166, 255, 0.05);
+.ci-deployed {
+  border-left: 3px solid #22c55e;
 }
 
-.wi-type {
+.ci-type {
   font-size: 16px;
   flex-shrink: 0;
   width: 24px;
   text-align: center;
 }
 
-.wi-main {
+.ci-main {
   flex: 1;
   min-width: 0;
 }
 
-.wi-title {
+.ci-title-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ci-title {
   color: var(--text-primary);
   text-decoration: none;
   font-size: 13px;
   font-weight: 500;
-  display: block;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.wi-title:hover {
+.ci-title:hover {
   text-decoration: underline;
   color: var(--accent);
 }
 
-.wi-meta {
+.ci-badge-deployed {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: #22c55e33;
+  color: #22c55e;
+}
+
+.ci-meta {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -56,73 +84,25 @@
   color: var(--text-secondary);
 }
 
-.wi-state {
+.ci-state {
   padding: 1px 6px;
   border-radius: 3px;
   font-weight: 600;
   font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-}
-
-.state-new {
-  background: #6366f133;
-  color: #818cf8;
-}
-
-.state-active {
-  background: #3b82f633;
-  color: #60a5fa;
-}
-
-.state-developing {
-  background: #a855f733;
-  color: #c084fc;
-}
-
-.state-code-review {
-  background: #f59e0b33;
-  color: #fbbf24;
-}
-
-.state-dev-ready {
-  background: #06b6d433;
-  color: #22d3ee;
-}
-
-.state-test-ready {
-  background: #f4734633;
-  color: #fb923c;
-}
-
-.state-testing {
-  background: #ec489933;
-  color: #f472b6;
-}
-
-.state-resolved {
-  background: #22c55e33;
-  color: #22c55e;
-}
-
-.state-closed {
   background: #22c55e22;
   color: #4ade80;
 }
 
-.state-removed {
-  background: #64748b33;
-  color: #94a3b8;
-}
-
-.wi-assigned {
+.ci-assigned {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 120px;
 }
 
-.wi-points {
+.ci-points {
   flex-shrink: 0;
   font-size: 12px;
   font-weight: 600;

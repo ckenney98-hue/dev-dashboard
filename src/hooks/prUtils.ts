@@ -12,6 +12,11 @@ export interface PRViewModel {
   buildStatus: BuildStatus;
   buildUrl: string | null;
   webUrl: string;
+  isNew: boolean;
+}
+
+export function isRecentPR(creationDate: string, thresholdMs = 60 * 60 * 1000): boolean {
+  return Date.now() - new Date(creationDate).getTime() < thresholdMs;
 }
 
 const stuckHours = Number(import.meta.env.VITE_STUCK_HOURS_THRESHOLD) || 5;
@@ -95,6 +100,7 @@ export async function enrichPullRequests(prs: GitPullRequest[]): Promise<PRViewM
         buildStatus: build.status,
         buildUrl: build.url,
         webUrl: buildWebUrl(pr),
+        isNew: isRecentPR(pr.creationDate),
       };
     })
   );
