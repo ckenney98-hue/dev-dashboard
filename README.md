@@ -9,18 +9,38 @@ Built with React, TypeScript, and Vite.
 - [Node.js](https://nodejs.org/) (v18+)
 - [pnpm](https://pnpm.io/)
 
-## Setup
+## Quick Setup
 
 ```bash
 git clone https://github.com/ckenney98-hue/dev-dashboard.git
 cd dev-dashboard
-pnpm install
-cp .env.example .env
+pnpm setup
 ```
 
-Edit `.env` with your values (see below), then start the dev server:
+This single command will:
+1. Install dependencies
+2. Create `.env` from `.env.example` and open it for you to fill in
+3. Register the dashboard to auto-start on login (Windows Startup folder)
+4. Start the dev server
+
+Dashboard runs at **http://localhost:3333**
+
+## Remove Auto-Start
 
 ```bash
+pnpm remove-autostart
+```
+
+Removes the Windows Startup shortcut so the dashboard no longer launches on login.
+
+## Manual Setup
+
+If you prefer to set things up manually:
+
+```bash
+pnpm install
+cp .env.example .env
+# Edit .env with your values
 pnpm dev
 ```
 
@@ -48,11 +68,3 @@ pnpm dev
 | `VITE_STUCK_HOURS_THRESHOLD` | Hours before a PR is considered "stuck" (default: 5) |
 | `GIT_REPO_ROOT` | Absolute path to your local git repo (used for worktree detection) |
 | `AZURE_DEVOPS_PAT` | Your personal access token (never committed) |
-
-## For Other Devs
-
-After cloning, you just need to:
-
-1. `cp .env.example .env`
-2. Fill in your values: `AZURE_DEVOPS_PAT`, `GIT_REPO_ROOT`, `VITE_ADO_REVIEWER_GROUP_ID`
-3. `pnpm install && pnpm dev`
